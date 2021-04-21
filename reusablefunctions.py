@@ -1,12 +1,13 @@
-import openpyxl
+import openpyxl as op
+import os
+import pandas as pd
 
 def delete_report_top_rows(workbookName):
     """
-    This function uses openpyxl to remove 
-    the first 3 lines from an Excel file 
-    downloaded from the platform.
+    This function uses openpyxl to remove the first 3 lines 
+    from an Excel file downloaded from the platform.
     """
-    book = openpyxl.load_workbook(workbookName)
+    book = op.load_workbook(workbookName)
     # book.worksheets[0] is used when the name is variable.
     # book['Name of Sheet'] can be used for specific names.
     sheet = book.worksheets[0]
@@ -19,3 +20,14 @@ def delete_report_top_rows(workbookName):
     book.save(workbookName)
 
     return 0
+
+def save_csv_as_xlsx(workbookLocation):
+    """
+    Saves a CSV file as an Excel file. This displays UTF-8 characters 
+    correctly on macOS as Excel displays UTF-8 characters in CSV files 
+    incorrectly.
+    """
+    df = pd.read_csv(workbookLocation, encoding='utf-8', low_memory=False)
+    df = df.fillna('')
+    newWorkbookExtension = os.path.splitext(workbookLocation)[0]
+    df.to_excel(newWorkbookExtension + '.xlsx', index=False)
