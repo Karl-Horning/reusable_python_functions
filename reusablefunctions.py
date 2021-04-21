@@ -19,5 +19,3 @@ def delete_report_top_rows(workbookName):
     book.save(workbookName)
 
     return 0
-
-delete_report_top_rows('Teacher Payment Report - Learnlight Holland.xlsx')
